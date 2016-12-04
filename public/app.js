@@ -11,10 +11,7 @@ $(document).ready(function() {
             username:uName,
             password:pass}),
           success: function(data){
-            var theData = data;
-            console.log(theData);
-            alert("You are about to be redirected");
-            window.location.href="profile.html";
+            window.location.href="/dashboard.html";
           },
           error: function() {
             console.log("Get fucked");

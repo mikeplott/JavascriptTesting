@@ -10,11 +10,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import java.net.URLEncoder;
 import javax.annotation.PostConstruct;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.sql.SQLException;
+import java.util.Map;
 
 /**
  * Created by michaelplott on 11/30/16.
@@ -24,7 +26,11 @@ public class JSTestController {
 
     public static final String KEY = "v2PhvEbfdqdQz1UKHssmmpMDWIrFDJ";
 
-    public static final String API_URL = "http://api-public.guidebox.com/v1.43/";
+    public static final String API_URL = "http://api-public.guidebox.com/v1.43/US/" + KEY;
+
+    public static final String SHOW_SEARCH = API_URL + "/search/title/";
+
+    public static final String SEARCH_ID = API_URL + "/show/";
 
     @Autowired
     UserRepo users;
@@ -37,7 +43,7 @@ public class JSTestController {
     }
 
     @RequestMapping(path = "/login", method = RequestMethod.POST)
-    public User postUser(HttpSession session, HttpServletResponse response, @RequestBody User user) throws IOException {
+    public User postUser(HttpSession session, @RequestBody User user) throws IOException {
         User userFromDb = users.findByUsername(user.getUsername());
         if (userFromDb == null) {
             users.save(new User(user.getUsername(), user.getPassword()));
@@ -58,4 +64,39 @@ public class JSTestController {
         }
         return new ResponseEntity<User>(user, HttpStatus.OK);
     }
+
+    @RequestMapping(path = "/show-search", method = RequestMethod.GET)
+    public ResponseEntity<String> getURL(HttpSession session) {
+        String username = (String) session.getAttribute("username");
+        User user = users.findByUsername(username);
+        if (user == null) {
+            return new ResponseEntity<String>(HttpStatus.FORBIDDEN);
+        }
+        return new ResponseEntity<String>(SHOW_SEARCH, HttpStatus.OK);
+    }
+
+    @RequestMapping(path = "/url-encode", method = RequestMethod.POST)
+    public ResponseEntity<String> encodeURL(HttpSession session, @RequestBody Map<String, String> json) throws UnsupportedEncodingException {
+        String username = (String) session.getAttribute("username");
+        User user = users.findByUsername(username);
+        if (user == null) {
+            return new ResponseEntity<String>(HttpStatus.FORBIDDEN);
+        }
+        String show = json.get("show");
+        String show1 = URLEncoder.encode(show, "UTF-8");
+        String show2 = URLEncoder.encode(show1, "UTF-8");
+        String show3 = URLEncoder.encode(show2, "UTF-8");
+        return new ResponseEntity<String>(show3, HttpStatus.OK);
+    }
+
+    @RequestMapping(path = "/search-id", method = RequestMethod.GET)
+    public ResponseEntity<String> showId(HttpSession session, int theID) throws UnsupportedEncodingException {
+        String id = theID + "";
+        String id1 = URLEncoder.encode(id, "UTF-8");
+        String id2 = URLEncoder.encode(id1, "UTF-8");
+        String id3 = URLEncoder.encode(id2, "UTF-8");
+        String call = SEARCH_ID + id3;
+        return new ResponseEntity<String>(call, HttpStatus.OK);
+    }
+
 }
