@@ -7,12 +7,13 @@ body {
   margin-bottom: 20px;
 }
 
-.flip {
+.card {
     -webkit-perspective: 800;
-    width: 350px;
+    width: 300px;
     height: 400px;
     position: relative;
     margin-bottom: 50px;
+    text-align: center;
 }
 
 .front {
@@ -20,10 +21,13 @@ body {
     height: 100%;
     -webkit-transform-style: preserve-3d;
     -webkit-transition: 0.5s;
-    border: black;
+    border-style: solid;
+    border-width: thin;
+    box-shadow: 0 4px 8px 0;
 }
 
-.col-md-4 {
+.front:hover {
+    box-shadow: 0 8px 16px 0;
 }
 
 .back {
@@ -32,7 +36,13 @@ body {
     position: absolute;
     -webkit-backface-visibility: hidden;
     z-index: 2;
-    border: black;
+    border-style: solid;
+    border-width: thin;
+    box-shadow: 0 4px 8px 0;
+}
+
+.back:hover {
+    box-shadow: 0 8px 16px 0;
 }
 
 #userInfo {
@@ -41,11 +51,11 @@ body {
 
 #middlePic {
     margin-right: auto;
-    margin-top: 10%;
+    margin-top: 5%;
     text-align: center;
 }
 
 #showSearch {
-    margin-left: 30%;
-    margin-top: 10%;
+    margin-left: 35%;
+    margin-top: 5%;
 }

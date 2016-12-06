@@ -145,7 +145,7 @@ $(function() {
             var theHead = document.createElement('h4');
             theHead.setAttribute('text-align', 'center');
             theHead.setAttribute('id', 'title');
-            theHead.innerHTML = "Title: ";
+            theHead.innerHTML = " Title: ";
             var headTitle = theSeasons[i].original_title;
             var headNode = document.createTextNode(headTitle);
             theHead.appendChild(headNode);
@@ -168,7 +168,7 @@ $(function() {
             var pTag = document.createElement('h4');
             pTag.setAttribute('text-align', 'center');
             pTag.setAttribute('id', 'seasonNumber');
-            pTag.innerHTML = "Season: ";
+            pTag.innerHTML = " Season: ";
             var seaNum = theSeasons[i].season_number;
             var pNode = document.createTextNode(seaNum);
             pTag.appendChild(pNode);
@@ -176,7 +176,7 @@ $(function() {
             var pTag2 = document.createElement('h4');
             pTag2.setAttribute('text-align', 'center');
             pTag2.setAttribute('id', 'episode');
-            pTag2.innerHTML = "Episode: ";
+            pTag2.innerHTML = " Episode: ";
             var epiNum = theSeasons[i].episode_number;
             var epiNode = document.createTextNode(epiNum);
             pTag2.appendChild(epiNode);
