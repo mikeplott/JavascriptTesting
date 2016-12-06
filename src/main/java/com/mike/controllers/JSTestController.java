@@ -24,7 +24,7 @@ import java.util.Map;
 @RestController
 public class JSTestController {
 
-    //public static final String KEY = "rKb2Votbg910fF7vWvJtcn9Q18QNAUiQ";
+    public static final String TVDBKEY = "8E58C59B2C5CAAB5";
 
     public static final String KEY = "rKb2Votbq91OfF7vWvJtcn9Q18QNAUiQ";
 
@@ -33,6 +33,8 @@ public class JSTestController {
     public static final String SHOW_SEARCH = API_URL + "/search/title/";
 
     public static final String SEARCH_ID = API_URL + "/show/";
+
+    public static final String MOVIE_SEARCH = API_URL + "/search/movie/title/";
 
     @Autowired
     UserRepo users;
@@ -98,6 +100,21 @@ public class JSTestController {
         String id2 = URLEncoder.encode(id1, "UTF-8");
         String id3 = URLEncoder.encode(id2, "UTF-8");
         String call = SEARCH_ID + id3;
+        return new ResponseEntity<String>(call, HttpStatus.OK);
+    }
+
+    @RequestMapping(path = "/source-search", method = RequestMethod.POST)
+    public ResponseEntity<String> getMovieURL(HttpSession session, @RequestBody Map<String, String> json) throws UnsupportedEncodingException {
+        String username = (String) session.getAttribute("username");
+        User user = users.findByUsername(username);
+        if (user == null) {
+            return new ResponseEntity<String>(HttpStatus.FORBIDDEN);
+        }
+        String movie = json.get("movie");
+        URLEncoder.encode(movie, "UTF-8");
+        URLEncoder.encode(movie, "UTF-8");
+        URLEncoder.encode(movie, "UTF-8");
+        String call = MOVIE_SEARCH + movie;
         return new ResponseEntity<String>(call, HttpStatus.OK);
     }
 

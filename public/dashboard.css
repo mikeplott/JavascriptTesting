@@ -1,16 +1,16 @@
-body {
+/*body {
   padding-top: 20px;
   padding-bottom: 20px;
-}
+}*/
 
-.navbar {
+/*.navbar {
   margin-bottom: 20px;
-}
+}*/
 
 .card {
     -webkit-perspective: 800;
     width: 300px;
-    height: 400px;
+    height: 420px;
     position: relative;
     margin-bottom: 50px;
     text-align: center;
@@ -24,6 +24,7 @@ body {
     border-style: solid;
     border-width: thin;
     box-shadow: 0 4px 8px 0;
+    padding: 10px;
 }
 
 .front:hover {
@@ -39,6 +40,7 @@ body {
     border-style: solid;
     border-width: thin;
     box-shadow: 0 4px 8px 0;
+    padding: 10px;
 }
 
 .back:hover {
@@ -56,6 +58,14 @@ body {
 }
 
 #showSearch {
-    margin-left: 35%;
-    margin-top: 5%;
+    margin-left: 10%;
+    /*width: 40%;*/
+}
+
+#seasonSearch {
+    margin-left: 10%;
+}
+
+label {
+    font-size: 16px;
 }

@@ -13,15 +13,49 @@ $.get('/show-search', function(data) {
 
 $(function() {
     $('#showSearch').submit(serCall);
+});
+
+$(function() {
+    $('#movieSearch').submit(localCall);
+});
+
+    function localCall(event) {
+        event.preventDefault();
+        var userInput = $(this);
+        console.log(userInput);
+        var movie = userInput.find('[name=movieSearch]').val();
+        console.log(movie);
+        $.ajax({
+            url: '/source-search',
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify({
+                "movie": movie
+            }),
+            success: function(data) {
+                sourceCall(data);
+                }
+            });
+    }
+
+function sourceCall(data) {
+    event.preventDefault();
+    console.log(data);
+    $.ajax({
+        url: data + "/fuzzy",
+        type: 'GET',
+        data: ' ',
+        success: function(data) {
+            console.log(data);
+        }
+    })
+
+}
 
     function serCall(event) {
         event.preventDefault();
         var row = document.getElementById('middlePic');
         var episodeView = document.getElementById('picHolder');
-        //var bigImg = document.getElementById('picId');
-        // if (bigImg != null) {
-        //     bigImg.innerHTML = "";
-        // }
         row.innerHTML = "";
         episodeView.innerHTML = "";
         var f = $(this);
@@ -38,7 +72,6 @@ $(function() {
             }
         });
     }
-});
 
     function displayData(data) {
         console.log(data);
@@ -59,18 +92,17 @@ $(function() {
                 header.innerHTML = title;
                 id = allData.id;
                 pic3.setAttribute('src', image3);
-                pic3.setAttribute('onclick', seasons);
                 pic3.setAttribute('id', "picId");
                 var place = document.getElementById('middlePic');
                 place.setAttribute('text-align', 'center');
-                //var titleHolder = document.getElementById('theTitle')
-                //    .innerHTML = title;
                 place.appendChild(header);
                 place.appendChild(pic3);
                 place.appendChild(br);
                 place.appendChild(br2);
                 place.appendChild(br3);
-                pic3.onload = $('#picId').click(seasons(event));
+                $('#picId').click(function() {
+                    seasons(event)
+                });
             }
         });
     }
@@ -79,14 +111,14 @@ $(function() {
         event.preventDefault();
         console.log(id);
         $.ajax({
-            url: 'search-id?theID=' + id,//allData.id,
+            url: 'search-id?theID=' + id,
             type: 'GET',
             contentType: 'application/json',
             data: ' ',
             success: function(data) {
                 console.log(data);
                 $.ajax({
-                    url: data + "/episodes/all/0/25/all/all",
+                    url: data + "/episodes/all/0/50/all/all/true?reverse_ordering=true",
                     type: 'GET',
                     data: ' ',
                     success: function(theData) {
@@ -99,14 +131,11 @@ $(function() {
 
     function displayEpisodes(theData) {
         var theSeasons = theData.results;
+        console.log(theSeasons);
         for (var i = 0; i < theSeasons.length; i++) {
 
             var row = document.getElementById('picHolder');
             var imgSrc = theSeasons[i].thumbnail_208x117;
-
-            // var col = document.createElement('div');
-            // col.setAttribute('class', 'flip');
-            // col.setAttribute('id', 'js-flip-1');
 
             var col1 = document.createElement('div');
             col1.setAttribute('class', 'col-md-4 flip');
@@ -116,13 +145,8 @@ $(function() {
             card.setAttribute('id', 'theCard');
             card.setAttribute('onClick', $('.card').flip());
 
-            // function theFlip() {
-            //     $('#theCard').flip(true);
-            // }
-
             var front = document.createElement('div');
             front.setAttribute('class', 'face front');
-            //front.setAttribute('id', 'front');
 
             var br1 = document.createElement('br');
             var br2 = document.createElement('br');
@@ -203,29 +227,8 @@ $(function() {
             back.appendChild(br5);
             back.appendChild(thePara);
             card.appendChild(back);
-            //card.appendChild(pBut);
             col1.appendChild(card);
-            //col.appendChild(card);
-            //col1.appendChild(col);
             row.appendChild(col1);
-            //row.appendChild(card);
-
-
-
-            // col1.appendChild(thePic);
-            // col1.appendChild(theHead);
-            // col1.appendChild(headLabel);
-            // col1.appendChild(thePara);
-            // col1.appendChild(descLabel);
-            // col1.appendChild(airDate);
-            // col1.appendChild(dateLabel);
-            // col1.appendChild(pTag);
-            // col1.appendChild(seaNumLabel);
-            // col1.appendChild(pTag2);
-            // col1.appendChild(epiNumLabel);
-            //col1.appendChild(pBut);
-            //row.appendChild(col1);
-            //row.appendChild(myBr);
         }
     }
 
@@ -251,48 +254,3 @@ function theSearch() {
         }
     });
 }
-
-// function theFlip() {
-//     var zeCard = $('#theCard');
-//     if (zeCard != null) {
-//         $('#theCard').load(function() {
-//             $('#theCard').flip('toggle');
-//         })
-//
-//     }
-// }
-
-
-// $('#theCard').flip({
-//     axis: 'x',
-//     trigger: 'click'
-// });
-
-//     $('#js-flip-1').click(function() {
-//         $('#js-flip-1.card').addClass('flipped');
-//     },
-//     function() {
-//         $('#js-flip-1.card').removeClass('flipped');
-//         }
-// );
-
-
-    // function flip(i) {
-    //     $('.card' + i).toggleClass('flipped');
-    // }
-
-// $('#showSearch').submit(function(event) {
-//     event.preventDefault();
-//     $.getJSON("/show-search", function(data) {
-//         var title = $("input[name=showTitle]").val();
-//         var request = data.
-//         alert("console test");
-//         $.ajax({
-//             type: "GET",
-//             url: request,
-//             dataType: "json",
-//             data: " ",
-//             success: function(data) {
-//                 console.log("it worked!");
-//                 console.log(data);
-//             }
