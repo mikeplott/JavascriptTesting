@@ -24,7 +24,9 @@ import java.util.Map;
 @RestController
 public class JSTestController {
 
-    public static final String KEY = "v2PhvEbfdqdQz1UKHssmmpMDWIrFDJ";
+    //public static final String KEY = "rKb2Votbg910fF7vWvJtcn9Q18QNAUiQ";
+
+    public static final String KEY = "rKb2Votbq91OfF7vWvJtcn9Q18QNAUiQ";
 
     public static final String API_URL = "http://api-public.guidebox.com/v1.43/US/" + KEY;
 
