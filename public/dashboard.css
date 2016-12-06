@@ -7,6 +7,34 @@ body {
   margin-bottom: 20px;
 }
 
+.flip {
+    -webkit-perspective: 800;
+    width: 350px;
+    height: 400px;
+    position: relative;
+    margin-bottom: 50px;
+}
+
+.front {
+    width: 100%;
+    height: 100%;
+    -webkit-transform-style: preserve-3d;
+    -webkit-transition: 0.5s;
+    border: black;
+}
+
+.col-md-4 {
+}
+
+.back {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    -webkit-backface-visibility: hidden;
+    z-index: 2;
+    border: black;
+}
+
 #userInfo {
   margin-left: 47%;
 }
@@ -20,27 +48,4 @@ body {
 #showSearch {
     margin-left: 30%;
     margin-top: 10%;
-}
-
-.card {
-    float:left;
-    position: relative;
-    width: 100%;
-    margin:5%;
-    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
-    transition: 0.3s;
-    padding-bottom: 10%;
-}
-
-.card:hover {
-    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
-}
-
-.box {
-    float: left;
-    position: relative;
-    width: 100%;
-    margin: 1.66%
-    padding: 2px 16px;
-    text-align: center;
 }

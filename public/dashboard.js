@@ -100,24 +100,47 @@ $(function() {
     function displayEpisodes(theData) {
         var theSeasons = theData.results;
         for (var i = 0; i < theSeasons.length; i++) {
+
             var row = document.getElementById('picHolder');
             var imgSrc = theSeasons[i].thumbnail_208x117;
+
+            // var col = document.createElement('div');
+            // col.setAttribute('class', 'flip');
+            // col.setAttribute('id', 'js-flip-1');
+
             var col1 = document.createElement('div');
-            col1.setAttribute('class', 'col-md-3');
+            col1.setAttribute('class', 'col-md-4 flip');
+
             var card = document.createElement('div');
             card.setAttribute('class', 'card');
+            card.setAttribute('id', 'theCard');
+            card.setAttribute('onClick', $('.card').flip());
+
+            // function theFlip() {
+            //     $('#theCard').flip(true);
+            // }
+
             var front = document.createElement('div');
-            front.setAttribute('class', 'front' + i);
+            front.setAttribute('class', 'face front');
+            //front.setAttribute('id', 'front');
+
             var br1 = document.createElement('br');
             var br2 = document.createElement('br');
             var br3 = document.createElement('br');
             var br4 = document.createElement('br');
+            var br5 = document.createElement('br');
+
             var back = document.createElement('div');
-            back.setAttribute('class', 'back' + i);
+            back.setAttribute('class', 'face back');
+            back.setAttribute('id', 'back');
 
             var thePic = document.createElement('img');
             thePic.setAttribute('src', imgSrc);
             thePic.setAttribute('width', "100%");
+
+            var backPic = document.createElement('img');
+            backPic.setAttribute('src', imgSrc);
+            backPic.setAttribute('width', '100%');
 
             var theHead = document.createElement('h4');
             theHead.setAttribute('text-align', 'center');
@@ -166,7 +189,7 @@ $(function() {
 
             var myBr = document.createElement('br');
 
-            card.appendChild(thePic);
+            front.appendChild(thePic);
             front.appendChild(br1);
             front.appendChild(theHead);
             front.appendChild(br2)
@@ -176,9 +199,18 @@ $(function() {
             front.appendChild(br4);
             front.appendChild(pTag2);
             card.appendChild(front);
+            back.appendChild(backPic);
+            back.appendChild(br5);
+            back.appendChild(thePara);
+            card.appendChild(back);
             //card.appendChild(pBut);
             col1.appendChild(card);
+            //col.appendChild(card);
+            //col1.appendChild(col);
             row.appendChild(col1);
+            //row.appendChild(card);
+
+
 
             // col1.appendChild(thePic);
             // col1.appendChild(theHead);
@@ -193,7 +225,7 @@ $(function() {
             // col1.appendChild(epiNumLabel);
             //col1.appendChild(pBut);
             //row.appendChild(col1);
-            row.appendChild(myBr);
+            //row.appendChild(myBr);
         }
     }
 
@@ -219,6 +251,35 @@ function theSearch() {
         }
     });
 }
+
+// function theFlip() {
+//     var zeCard = $('#theCard');
+//     if (zeCard != null) {
+//         $('#theCard').load(function() {
+//             $('#theCard').flip('toggle');
+//         })
+//
+//     }
+// }
+
+
+// $('#theCard').flip({
+//     axis: 'x',
+//     trigger: 'click'
+// });
+
+//     $('#js-flip-1').click(function() {
+//         $('#js-flip-1.card').addClass('flipped');
+//     },
+//     function() {
+//         $('#js-flip-1.card').removeClass('flipped');
+//         }
+// );
+
+
+    // function flip(i) {
+    //     $('.card' + i).toggleClass('flipped');
+    // }
 
 // $('#showSearch').submit(function(event) {
 //     event.preventDefault();
