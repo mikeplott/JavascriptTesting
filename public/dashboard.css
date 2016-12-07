@@ -3,17 +3,117 @@
   padding-bottom: 20px;
 }*/
 
-/*.navbar {
-  margin-bottom: 20px;
-}*/
+.navbar-wrapper {
+    width: 100%;
+    height: 100px;
+    padding: 0;
+    margin-bottom: 100px;
+}
+
+.container {
+    width: 100%;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+#show {
+    margin-bottom: 100px;
+}
+
+#movie {
+    margin-bottom: 100px;
+}
 
 .card {
     -webkit-perspective: 800;
     width: 300px;
     height: 420px;
     position: relative;
-    margin-bottom: 50px;
+    margin-bottom: 15px;
     text-align: center;
+}
+
+.links {
+    padding-top: 15px;
+    width: 210px;
+    height: 420px;
+    margin-bottom: 70px;
+    margin-left: 50px;
+    text-align: center;
+}
+
+.movie {
+    background-color: grey;
+    padding: 10px;
+    box-shadow: 0 4px 8px 0;
+    margin-bottom: 15px;
+}
+
+.movie:hover {
+    box-shadow: 0 8px 16px 0;
+}
+
+.btn-success {
+    margin-bottom: 45px;
+    height: 40px;
+    width: 100%;
+}
+
+.freeView {
+    width: 215px
+    margin-left: 80px;
+    margin-right: 40px;
+    background-color: grey;
+}
+
+#rowView {
+    margin-left: 100px;
+    padding: 0px;
+    width: 100%;
+}
+
+.theFree {
+    padding-left: 60px;
+    margin-left: 35%;
+    width: 20%;
+}
+
+.thePur {
+    width: 20%
+}
+
+.theSub {
+    padding-right: 30px;
+    width: 20%;
+}
+
+.purView {
+    width: 215px;
+    margin-left: 80px;
+    margin-right: 40px;
+    background-color: red;
+}
+
+.subView {
+    width: 215px;
+    margin-left: 80px;
+    margin-right: 40px;
+    background-color: blue;
+}
+
+.pur {
+    height: 30px;
+    margin-bottom: 10px;
+}
+
+.free {
+    height: 30px;
+    margin-bottom: 10px;
+}
+
+.sub {
+    height: 30px;
+    margin-bottom: 10px;
 }
 
 .front {
@@ -25,6 +125,7 @@
     border-width: thin;
     box-shadow: 0 4px 8px 0;
     padding: 10px;
+    background-color: white;
 }
 
 .front:hover {
@@ -41,6 +142,7 @@
     border-width: thin;
     box-shadow: 0 4px 8px 0;
     padding: 10px;
+    background-color: white;
 }
 
 .back:hover {
@@ -48,7 +150,7 @@
 }
 
 #userInfo {
-  margin-left: 47%;
+  margin-left: 61%;
 }
 
 #middlePic {
@@ -64,6 +166,11 @@
 
 #seasonSearch {
     margin-left: 10%;
+}
+
+#picHolder {
+    padding: 0px;
+    width: 100%;
 }
 
 label {

@@ -36,6 +36,8 @@ public class JSTestController {
 
     public static final String MOVIE_SEARCH = API_URL + "/search/movie/title/";
 
+    public static final String MOVIE_ID_SEARCH = API_URL + "/search/movie/id/";
+
     @Autowired
     UserRepo users;
 
@@ -116,6 +118,27 @@ public class JSTestController {
         URLEncoder.encode(movie, "UTF-8");
         String call = MOVIE_SEARCH + movie;
         return new ResponseEntity<String>(call, HttpStatus.OK);
+    }
+
+    @RequestMapping(path = "/movie-id", method = RequestMethod.GET)
+    public ResponseEntity<String> getMovieIdUrl(HttpSession session) {
+        String username = (String) session.getAttribute("username");
+        User user = users.findByUsername(username);
+        if (user == null) {
+            return new ResponseEntity<String>(HttpStatus.FORBIDDEN);
+        }
+        String theCall = MOVIE_ID_SEARCH;
+        return new ResponseEntity<String>(theCall, HttpStatus.OK);
+    }
+
+    @RequestMapping(path = "/api-url", method = RequestMethod.GET)
+    public ResponseEntity<String> getMovieSourceURL(HttpSession session) {
+        String username = (String) session.getAttribute("username");
+        User user = users.findByUsername(username);
+        if (user == null) {
+            return new ResponseEntity<String>(HttpStatus.FORBIDDEN);
+        }
+        return new ResponseEntity<String>(API_URL, HttpStatus.OK);
     }
 
 }

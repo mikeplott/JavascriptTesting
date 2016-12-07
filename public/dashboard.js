@@ -21,6 +21,10 @@ $(function() {
 
     function localCall(event) {
         event.preventDefault();
+        var row = document.getElementById('middlePic');
+        var episodeView = document.getElementById('picHolder');
+        row.innerHTML = "";
+        episodeView.innerHTML = "";
         var userInput = $(this);
         console.log(userInput);
         var movie = userInput.find('[name=movieSearch]').val();
@@ -46,11 +50,228 @@ function sourceCall(data) {
         type: 'GET',
         data: ' ',
         success: function(data) {
-            console.log(data);
+            displayMovies(data);
         }
     })
-
 }
+
+function getMovie(id) {
+    console.log(id);
+    var theID = id;
+    console.log(theID);
+    $.ajax({
+        url: 'show-search',
+        type: 'GET',
+        data: ' ',
+        success: function(theID, data) {
+            var stuff = data;
+            console.log(stuff);
+            console.log(data);
+            console.log(theID);
+            apiMovieSearch(data, theID);
+        }
+    })
+}
+
+function apiMovieSearch(data, theID) {
+    console.log(theID);
+    var myID = theID;
+    console.log(myID);
+    $.ajax({
+        url: data + 'movie/' + myID,
+        type: 'GET',
+        data: ' ',
+        success: function(data) {
+            console.log(data);
+            var row = document.getElementById('picHolder');
+
+        }
+    })
+}
+
+
+function displayMovies(data) {
+    var results = data.results;
+    console.log(results);
+    for (var i = 0; i < results.length; i++) {
+        var name = results[i].original_title;
+        var photo = results[i].poster_240x342;
+        var rating = results[i].rating;
+        var release = results[i].release_date;
+        var rotTom = results[i].rottentomatoes;
+        var id = results[i].id;
+        var movieID = results[i].themoviedb;
+        var col = document.createElement('div');
+
+        var img = document.createElement('img');
+        img.setAttribute('height', '300px');
+        img.setAttribute('width', '280px');
+
+        var title = document.createElement('h4');
+        title.innerHTML = 'Title: ';
+
+        var theRating = document.createElement('h4');
+        theRating.innerHTML = 'Rating: ';
+
+        var theRelease = document.createElement('h4');
+        theRelease.innerHTML = 'Date: ';
+
+        var row = document.createElement('div');
+        row.setAttribute('class', 'theDisplay');
+        row.setAttribute('id', 'theMovieStuff');
+
+        var nameNode = document.createTextNode(name);
+        var ratingNode = document.createTextNode(rating);
+        var releaseNode = document.createTextNode(release);
+        var container = document.getElementById('picHolder');
+
+        img.setAttribute('src', photo);
+        title.appendChild(nameNode);
+        theRating.appendChild(ratingNode);
+        theRelease.appendChild(releaseNode);
+
+        col.setAttribute('class', 'card movie');
+        col.setAttribute('id', 'movieDisplay');
+        col.setAttribute('onClick', theInfo(id));
+        col.appendChild(img);
+        col.appendChild(title);
+        col.appendChild(theRating);
+        col.appendChild(theRelease);
+
+        row.setAttribute('class', 'col-md-3');
+        row.appendChild(col);
+        var myContainer = document.createElement('div');
+        myContainer.setAttribute('class', 'col-md-3 links freeView');
+        myContainer.setAttribute('id', 'info' + id);
+        myContainer.setAttribute('name', 'freeCol' + id);
+
+        var myContainer2 = document.createElement('div');
+        myContainer2.setAttribute('class', 'col-md-3 links subView');
+        myContainer2.setAttribute('id', 'info' + id + 1);
+        myContainer2.setAttribute('name', 'subCol' + id + 1);
+
+        var myContainer3 = document.createElement('div');
+        myContainer3.setAttribute('class', 'col-md-3 links purView');
+        myContainer3.setAttribute('id', 'info' + id + 2);
+        myContainer3.setAttribute('name', 'purCol' + id + 2);
+
+        var myRow = document.createElement('div');
+        myRow.setAttribute('class', 'col-md-12');
+        myRow.setAttribute('id', 'rowView');
+
+        var freeLabel = document.createElement('label');
+        freeLabel.setAttribute('for', 'freeCol' + id);
+
+        var subLabel = document.createElement('label');
+        subLabel.setAttribute('for', 'subCol' + id + 1);
+
+        var purLabel = document.createElement('label');
+        purLabel.setAttribute('for', 'purCol' + id + 2);
+
+        // myContainer.append(freeLabel);
+        // myContainer2.append(subLabel);
+        // myContainer3.append(purLabel);
+
+
+        myRow.appendChild(row);
+        //myRow.appendChild(freeLabel);
+        myRow.appendChild(myContainer);
+        //myRow.appendChild(subLabel);
+        myRow.appendChild(myContainer2);
+        //myRow.appendChild(purLabel);
+        myRow.appendChild(myContainer3);
+
+        container.appendChild(myRow);
+    }
+}
+
+function theInfo(id) {
+    event.preventDefault();
+    localApiCall(id);
+}
+
+$.when(displayData).then(localApiCall);
+
+function localApiCall(id) {
+    console.log(id);
+    var i;
+    var theNum = i++;
+    $.ajax({
+        url: '/api-url',
+        type: 'GET',
+        data: ' ',
+        success: function(data) {
+            guideBoxApiCall(data, id, theNum);
+        }
+    });
+}
+
+function guideBoxApiCall(data, id, theNum) {
+    $.ajax({
+        url: data + "/movie/" + id,
+        type: 'GET',
+        data: ' ',
+        success: function(data) {
+                var theContainer = document.getElementById('picHolder');
+                var free = data.free_web_sources;
+                var subService = data.subscription_web_sources;
+                var purService = data.purchase_web_sources;
+                var id = data.id;
+
+                var bigContainer = $('#rowView');
+
+                var row = $('#info' + id);
+                var row2 = $('#info' + id + 1);
+                var row3 = $('#info' + id + 2);
+
+
+
+                if (free != null) {
+                    for (var i = 0; i < free.length; i++) {
+                        var freeForm = document.createElement('form');
+                        freeForm.setAttribute('action', free[i].link);
+                        var freeBut = document.createElement('input');
+                        freeBut.setAttribute('value', free[i].display_name);
+                        freeBut.setAttribute('type', 'submit');
+                        freeBut.setAttribute('class', 'btn btn-success free');
+                        freeForm.appendChild(freeBut);
+                        row.append(freeForm);
+                    }
+                }
+
+                if (subService != null) {
+                    for (var k = 0; k < subService.length; k++) {
+                        var subForm = document.createElement('form');
+                        subForm.setAttribute('action', subService[k].link);
+                        var subBtn = document.createElement('input');
+                        subBtn.setAttribute('value', subService[j].display_name);
+                        subBtn.setAttribute('type', 'submit');
+                        subBtn.setAttribute('class', 'btn btn-success sub');
+                        subForm.appendChild(subBtn);
+                        row2.append(subForm);
+                    }
+                }
+
+                if (purService != null) {
+                    for (var j = 0; j < purService.length; j++) {
+                        purForm = document.createElement('form');
+                        purForm.setAttribute('action', purService[j].link);
+                        var purBtn = document.createElement('input');
+                        purBtn.setAttribute('value', purService[j].display_name);
+                        purBtn.setAttribute('type', 'submit');
+                        purBtn.setAttribute('class', 'btn btn-success pur');
+                        purForm.appendChild(purBtn);
+                        row3.append(purForm);
+                    }
+                }
+
+                if (purService && subService && free == null) {
+                    var noInfo = $('#nilHolder');
+                    var addDiv = document.createElement('div');
+                }
+            }
+        });
+    }
 
     function serCall(event) {
         event.preventDefault();
@@ -93,6 +314,7 @@ function sourceCall(data) {
                 id = allData.id;
                 pic3.setAttribute('src', image3);
                 pic3.setAttribute('id', "picId");
+                pic3.setAttribute('onclick', seasons());
                 var place = document.getElementById('middlePic');
                 place.setAttribute('text-align', 'center');
                 place.appendChild(header);
@@ -100,15 +322,11 @@ function sourceCall(data) {
                 place.appendChild(br);
                 place.appendChild(br2);
                 place.appendChild(br3);
-                $('#picId').click(function() {
-                    seasons(event)
-                });
             }
         });
     }
 
     function seasons(event) {
-        event.preventDefault();
         console.log(id);
         $.ajax({
             url: 'search-id?theID=' + id,
@@ -205,11 +423,33 @@ function sourceCall(data) {
             var epiNode = document.createTextNode(epiNum);
             pTag2.appendChild(epiNode);
 
-            var pBut = document.createElement('p');
-            var aRef = document.createElement('a');
-            aRef.innerHTML = "Watch now!";
-            aRef.setAttribute('class', 'btn btn-default');
-            pBut.appendChild(aRef);
+            var webSourcesList = theSeasons[i].tv_everywhere_web_sources;
+            for (var k = 0; k < webSourcesList.length; k++) {
+                var webSources = webSourcesList[k].link;
+                var webName = webSourcesList[k].display_name;
+            }
+
+            var subSourcesList = theSeasons[i].subscription_web_sources;
+            for (var j = 0; j < subSourcesList.length; j++) {
+                var subSources = subSourcesList[j].link;
+                var subName = subSourcesList[j].display_name;
+            }
+
+            var tvWebForm = document.createElement('form');
+            tvWebForm.setAttribute('action', webSources);
+
+            var tvWebBtn = document.createElement('input');
+            tvWebBtn.setAttribute('type', 'submit');
+            tvWebBtn.setAttribute('value', webName);
+            tvWebBtn.setAttribute('class', 'btn btn-success');
+
+            var subWebForm = document.createElement('form');
+            subWebForm.setAttribute('action', subSources);
+
+            var subWebBtn = document.createElement('input');
+            subWebBtn.setAttribute('type', 'submit');
+            subWebBtn.setAttribute('value', subName);
+            subWebBtn.setAttribute('class', 'btn btn-success');
 
             var myBr = document.createElement('br');
 
@@ -222,12 +462,27 @@ function sourceCall(data) {
             front.appendChild(pTag);
             front.appendChild(br4);
             front.appendChild(pTag2);
-            card.appendChild(front);
+
             back.appendChild(backPic);
             back.appendChild(br5);
             back.appendChild(thePara);
+
+            card.appendChild(front);
             card.appendChild(back);
+
             col1.appendChild(card);
+
+            tvWebForm.appendChild(tvWebBtn);
+
+            subWebForm.appendChild(subWebBtn);
+
+            if (webSources != null) {
+                col1.appendChild(tvWebForm);
+            }
+            if (subSources != null) {
+                col1.appendChild(subWebForm);
+            }
+
             row.appendChild(col1);
         }
     }
