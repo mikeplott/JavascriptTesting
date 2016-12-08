@@ -24,6 +24,10 @@
     margin-bottom: 100px;
 }
 
+#theWish {
+    width: 80%;
+}
+
 .card {
     -webkit-perspective: 800;
     width: 300px;
@@ -59,11 +63,29 @@
     width: 100%;
 }
 
+.btn-primary {
+    margin-bottom: 45px;
+    height: 40px;
+    width: 100%;
+}
+
+.btn-warning {
+    margin-bottom: 45px;
+    height: 40px;
+    width: 100%;
+}
+
 .freeView {
     width: 215px
     margin-left: 80px;
     margin-right: 40px;
-    background-color: grey;
+    border-style: solid;
+    border-width: thin;
+    box-shadow: 0 4px 8px 0;
+}
+
+.freeView:hover {
+    box-shadow: 0 8px 16px 0;
 }
 
 #rowView {
@@ -91,14 +113,26 @@
     width: 215px;
     margin-left: 80px;
     margin-right: 40px;
-    background-color: red;
+    border-style: solid;
+    border-width: thin;
+    box-shadow: 0 4px 8px 0;
+}
+
+.purView:hover {
+    box-shadow: 0 8px 16px 0;
 }
 
 .subView {
     width: 215px;
     margin-left: 80px;
     margin-right: 40px;
-    background-color: blue;
+    border-style: solid;
+    border-width: thin;
+    box-shadow: 0 4px 8px 0;
+}
+
+.subView:hover {
+    box-shadow: 0 8px 16px 0;
 }
 
 .pur {
@@ -147,6 +181,26 @@
 
 .back:hover {
     box-shadow: 0 8px 16px 0;
+}
+
+#wishDiv {
+    border-style: solid;
+    border-width: thin;
+    box-shadow: 0 4px 8px 0;
+    margin-left: 10%;
+}
+
+#wishDiv:hover {
+    box-shadow: 0 8px 16px 0;
+}
+
+#headWish {
+    padding-top: 10px;
+    padding-bottom: 80px;
+}
+
+#wishDesc {
+    padding-top: 80px;
 }
 
 #userInfo {

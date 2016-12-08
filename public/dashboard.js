@@ -118,7 +118,7 @@ function displayMovies(data) {
 
         var row = document.createElement('div');
         row.setAttribute('class', 'theDisplay');
-        row.setAttribute('id', 'theMovieStuff');
+        row.setAttribute('id', 'theMovieStuff' + id);
 
         var nameNode = document.createTextNode(name);
         var ratingNode = document.createTextNode(rating);
@@ -131,7 +131,7 @@ function displayMovies(data) {
         theRelease.appendChild(releaseNode);
 
         col.setAttribute('class', 'card movie');
-        col.setAttribute('id', 'movieDisplay');
+        col.setAttribute('id', 'movieDisplay' + id);
         col.setAttribute('onClick', theInfo(id));
         col.appendChild(img);
         col.appendChild(title);
@@ -157,7 +157,7 @@ function displayMovies(data) {
 
         var myRow = document.createElement('div');
         myRow.setAttribute('class', 'col-md-12');
-        myRow.setAttribute('id', 'rowView');
+        myRow.setAttribute('id', 'rowView' + id);
 
         var freeLabel = document.createElement('label');
         freeLabel.setAttribute('for', 'freeCol' + id);
@@ -168,17 +168,9 @@ function displayMovies(data) {
         var purLabel = document.createElement('label');
         purLabel.setAttribute('for', 'purCol' + id + 2);
 
-        // myContainer.append(freeLabel);
-        // myContainer2.append(subLabel);
-        // myContainer3.append(purLabel);
-
-
         myRow.appendChild(row);
-        //myRow.appendChild(freeLabel);
         myRow.appendChild(myContainer);
-        //myRow.appendChild(subLabel);
         myRow.appendChild(myContainer2);
-        //myRow.appendChild(purLabel);
         myRow.appendChild(myContainer3);
 
         container.appendChild(myRow);
@@ -212,19 +204,22 @@ function guideBoxApiCall(data, id, theNum) {
         type: 'GET',
         data: ' ',
         success: function(data) {
+            console.log(data);
                 var theContainer = document.getElementById('picHolder');
                 var free = data.free_web_sources;
                 var subService = data.subscription_web_sources;
                 var purService = data.purchase_web_sources;
                 var id = data.id;
 
+                console.log(subService);
+                console.log(purService);
+                console.log(free);
+
                 var bigContainer = $('#rowView');
 
                 var row = $('#info' + id);
                 var row2 = $('#info' + id + 1);
                 var row3 = $('#info' + id + 2);
-
-
 
                 if (free != null) {
                     for (var i = 0; i < free.length; i++) {
@@ -233,7 +228,7 @@ function guideBoxApiCall(data, id, theNum) {
                         var freeBut = document.createElement('input');
                         freeBut.setAttribute('value', free[i].display_name);
                         freeBut.setAttribute('type', 'submit');
-                        freeBut.setAttribute('class', 'btn btn-success free');
+                        freeBut.setAttribute('class', 'btn btn-primary free');
                         freeForm.appendChild(freeBut);
                         row.append(freeForm);
                     }
@@ -244,7 +239,7 @@ function guideBoxApiCall(data, id, theNum) {
                         var subForm = document.createElement('form');
                         subForm.setAttribute('action', subService[k].link);
                         var subBtn = document.createElement('input');
-                        subBtn.setAttribute('value', subService[j].display_name);
+                        subBtn.setAttribute('value', subService[k].display_name);
                         subBtn.setAttribute('type', 'submit');
                         subBtn.setAttribute('class', 'btn btn-success sub');
                         subForm.appendChild(subBtn);
@@ -259,15 +254,54 @@ function guideBoxApiCall(data, id, theNum) {
                         var purBtn = document.createElement('input');
                         purBtn.setAttribute('value', purService[j].display_name);
                         purBtn.setAttribute('type', 'submit');
-                        purBtn.setAttribute('class', 'btn btn-success pur');
+                        purBtn.setAttribute('class', 'btn btn-warning pur');
                         purForm.appendChild(purBtn);
                         row3.append(purForm);
                     }
                 }
 
-                if (purService && subService && free == null) {
+                if (purService == 0 && subService == 0 && free == 0) {
+                    var noRes = $('#noResults');
                     var noInfo = $('#nilHolder');
+
+                    var rowDiv = $('#rowView' + id);
+
+                    var movieInfo = $('#theMovieStuff' + id);
+
+                    var moviePic = $('#movieDisplay' + id);
+
+                    movieInfo.append(moviePic);
+
                     var addDiv = document.createElement('div');
+                    addDiv.setAttribute('class', 'col-md-6 card');
+                    addDiv.setAttribute('id', 'wishDiv');
+
+                    var wishList = document.createElement('form');
+                    wishList.setAttribute('action', '/add-wish');
+
+                    var wishBtn = document.createElement('input');
+                    wishBtn.setAttribute('type', 'submit');
+                    wishBtn.setAttribute('class', 'btn btn-primary');
+                    wishBtn.setAttribute('id', 'theWish');
+
+                    var theHead = document.createElement('h4');
+                    theHead.setAttribute('id', 'headWish');
+                    theHead.innerHTML = "Add to wishlist!";
+
+                    var newPara = document.createElement('h4');
+                    newPara.setAttribute('id', 'wishDesc');
+                    newPara.innerHTML = "Add to your wishlist and get notifications when new media is released on your favorite services!";
+
+                    wishList.append(wishBtn);
+
+                    addDiv.append(theHead);
+                    addDiv.append(wishList);
+                    addDiv.append(newPara);
+
+                    rowDiv.empty();
+
+                    noRes.append(movieInfo);
+                    noRes.append(addDiv);
                 }
             }
         });
