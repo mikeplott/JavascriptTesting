@@ -1,6 +1,8 @@
 package com.mike.controllers;
 
+import com.mike.entities.Avatar;
 import com.mike.entities.User;
+import com.mike.services.AvatarRepo;
 import com.mike.services.UserRepo;
 import org.h2.tools.Server;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,10 +14,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import java.net.URLEncoder;
 import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Map;
 
 /**
@@ -41,11 +45,28 @@ public class JSTestController {
     @Autowired
     UserRepo users;
 
+    @Autowired
+    AvatarRepo avatars;
+
     Server h2;
 
     @PostConstruct
     public void init() throws SQLException {
         h2.createWebServer().start();
+
+        if (avatars.count() == 0) {
+            avatars.save(new Avatar("assets/human-standing.png", Avatar.Race.HUMAN));
+            avatars.save(new Avatar("assets/human-first-step.png", Avatar.Race.HUMAN));
+            avatars.save(new Avatar("assets/human-second-step.png", Avatar.Race.HUMAN));
+            avatars.save(new Avatar("assets/human-standing-left.png", Avatar.Race.HUMAN));
+            avatars.save(new Avatar("assets/human-left-step.png", Avatar.Race.HUMAN));
+            avatars.save(new Avatar("assets/human-left-last-step.png", Avatar.Race.HUMAN));
+        }
+    }
+
+    @PreDestroy
+    public void destroy() {
+        h2.stop();
     }
 
     @RequestMapping(path = "/login", method = RequestMethod.POST)
@@ -139,6 +160,16 @@ public class JSTestController {
             return new ResponseEntity<String>(HttpStatus.FORBIDDEN);
         }
         return new ResponseEntity<String>(API_URL, HttpStatus.OK);
+    }
+
+    @RequestMapping(path = "/avatars", method = RequestMethod.GET)
+    public ResponseEntity<ArrayList<Avatar>> getAvatars(HttpSession session) {
+        String username = (String) session.getAttribute("username");
+        User user = users.findByUsername(username);
+        if (user == null) {
+            return new ResponseEntity<ArrayList<Avatar>>(HttpStatus.FORBIDDEN);
+        }
+        return new ResponseEntity<ArrayList<Avatar>>(avatars.findByRace(Avatar.Race.HUMAN), HttpStatus.OK);
     }
 
 }
